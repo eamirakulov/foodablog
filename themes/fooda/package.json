@@ -1,0 +1,19 @@
+{
+  "name": "fooda",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-css": "node-sass-chokidar styles -o styles --omit-source-map-url  --output-style=compressed",
+    "preuglify" : "concat-cli -f js.dev/load-more.js js.dev/site.js -o js.build/bundle.js",
+    "uglify": "uglifyjs js.build/bundle.js -o js.build/bundle.min.js --compress"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concat-cli": "^4.0.0",
+    "node-sass-chokidar": "0.0.3",
+    "uglify-js": "^3.0.25"
+  }
+}

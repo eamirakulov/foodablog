@@ -1,0 +1,74 @@
+.post-cards-grid{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+body.home{
+	.post-cards-grid{
+		padding-top: 20px;
+		padding-bottom: 20px;
+	}
+}
+
+.post-card{
+	margin: 20px;
+	//min-width: 30%;
+	flex-basis: calc( 33.3333% - 40px);
+	flex-shrink: 0;
+	max-width: calc( 33.3333% - 40px);
+	min-height: 375px;//600px;
+	width: 100%;
+	border: 1px solid #ccc;
+	text-align: center;
+	display: none;
+	&.is-visible{
+		display: block;
+	}
+	a{
+		text-decoration: none;
+		display: block;
+		width: 100%;
+	}
+	@media(max-width:800px){
+		flex-basis: calc( 100% - 40px);
+		flex-shrink: 0;
+		max-width: calc( 100% - 40px);
+	}
+}
+
+.featured-image{
+	height: 220px;//340px;
+	background-position: center center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	display: block;
+}
+
+.card-cat{
+	width: 100%;
+	padding: $u;
+	display: block;
+	@extend .ProximaNovaMedium;
+	font-size: 13px;
+	color: #3f3f3f;
+	text-transform: uppercase;
+}
+
+.cat-color-code{
+	display: block;
+	width: 168px;
+	height: 2px;
+	margin: 10px auto 0 auto;
+	background: gold;
+}
+
+.card-title{
+	width: 100%;
+	padding: 0 20px 40px 20px;
+	@extend .ProximaNovaLight;
+	font-size: 22px;
+	color: #3f3f3f;
+	text-decoration: none;
+}
+
