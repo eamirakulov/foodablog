@@ -20,8 +20,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="container">
-		<div class="filter">
+	<div class="filter">
+		<div class="container">
 			<span class="toggle-search">
 				<i class="fa fa-search"></i>
 				<form method="get" id="searchform" action="<?php bloginfo('url'); ?>">
@@ -34,6 +34,8 @@
 				<span>Filter</span>
 			</span>
 		</div>
+	</div>
+	<div class="container">
 		<?php 
 			$the_query = new WP_Query( array( 'meta_key' => '_is_ns_featured_post', 'meta_value' => 'yes' ) ); ?>
 

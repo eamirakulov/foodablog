@@ -11,6 +11,7 @@ $orange: #f3634a
 
 #header
 	border-bottom: 1px solid #D7D9DD
+	z-index: 99999999
 
 body
 	font-family: proxima-nova
@@ -38,7 +39,7 @@ main
 	.close-filter
 		position: absolute
 		right: 22px
-		top: 45px
+		top: 35px
 
 		img
 			width: 35px
@@ -63,6 +64,7 @@ main
 	text-align: right
 	font-size: 16px
 	padding: 20px 0
+	border-bottom: 1px solid #808080
 
 	span
 		margin-left: 7px
@@ -82,9 +84,10 @@ main
 		cursor: pointer
 		line-height: 40px
 
-	*
-		display: inline-block
-		vertical-align: middle
+	.container
+		*
+			display: inline-block
+			vertical-align: middle
 
 	#searchform
 		vertical-align: middle
@@ -117,7 +120,7 @@ main
 		position: absolute
 		width: 50%
 		background: #fff
-		padding: 45px
+		padding: 50px
 		right: 0
 		bottom: -45px
 		border-bottom: 1px solid #D7D9DD
@@ -212,7 +215,7 @@ main
 
 		p
 			font-size: 18px
-			font-weight: 24px
+			line-height: 24px
 
 		.more
 			a
@@ -293,7 +296,7 @@ main
 		position: relative
 	.share
 		position: absolute
-		left: 0
+		left: 70px
 		top: 590px
 
 		> div
@@ -310,7 +313,7 @@ main
 	.divider
 		height: 1px
 		width: 100%
-		border-bottom: 1px solid $lightgrey2
+		border-bottom: 1px solid #D7D9DD
 	.banner
 		height: 550px
 		width: 100%
@@ -352,6 +355,14 @@ main
 		max-width: 830px
 		margin: 0 auto
 		background: #fff
+		font-size: 22px
+		line-height: 30px
+
+		p
+			font-size: 22px
+			line-height: 30px
+			margin: 0 0 30px 0
+
 		@media (max-width: 767px)
 			padding: 0 25px
 
@@ -455,7 +466,7 @@ main
 	width: 100%
 	height: 100%
 	background: rgba(55,64,83,0.75)
-	z-index: 999999
+	z-index: 99999999
 
 .lightbox-cta
 	display: none
@@ -465,7 +476,7 @@ main
 	top: 0
 	left: 0
 	background: rgba(55,64,83,0.75)
-	z-index: 9999999
+	z-index: 99999999
 	align-items: center
 	justify-content: center
 	text-align: center
@@ -587,6 +598,12 @@ blockquote
 	padding-top: 150px
 	@media (max-width: 767px)
 		padding-top: 90px
+
+	.posts-grid
+		padding-top: 0
+		.article
+			.thumb
+				height: 135px
 
 	.heading
 		margin: 0 0 23px 0
