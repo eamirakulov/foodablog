@@ -36,7 +36,7 @@ $(function() {
 		$('#search-form').submit();
 	});
 
-	if($(window).width() < 768) {}
+	if($(window).width() < 768) {
 		// slideOut CTA
 		var ctaDelay = $('.slide-out-cta').data('delay') * 1000;
 		if (getCookie('slide-out-cta') == null) {
