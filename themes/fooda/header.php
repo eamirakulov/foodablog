@@ -12,6 +12,15 @@
     <meta name="format-detection" content="telephone=no">
 	<?php wp_head(); ?>
     <style>body {opacity:0}</style>
+    <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+  <script
+  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+  crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.js"></script>
     <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <script src="https://use.typekit.net/ozn4gku.js"></script>
@@ -97,7 +106,7 @@ body.admin-bar .navbar { top: 32px !important; }
 		border-width: 0 0 1px;
 	}
   .navbar-collapse.collapse {
-		display: none!important;
+		display: none;
   }
   .navbar-nav {
 		float: none!important;
@@ -150,8 +159,6 @@ body.admin-bar .navbar { top: 32px !important; }
     margin-left: 20px;
   }
 }
-
-
 
 </style>
 

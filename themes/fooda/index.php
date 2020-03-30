@@ -1,26 +1,98 @@
 <?php get_header(); ?>
 
 <main>
-	<div class="container">
-		<div class="filter">
-			<i class="fa fa-search"></i>
-			<i class="fa fa-bars"></i>
-			<span>Filter</span>
-		</div>
-		<div class="featured">
-			<div class="img" style="background: url(<?php bloginfo('template_url'); ?>/img/main-banner.png) no-repeat center; background-size: cover;"></div>
-			<div class="f-content">
-				<div class="cat"><a href="#">Favorite Restaurants</a></div>
-				<h2 class="title">Best of Fooda Boston 2019</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-				<div class="more"><a href="#">Read more</a></div>
+	<div class="filter-box">
+		<a href="#" class="close-filter"><img src="<?php bloginfo('template_url'); ?>/img/filtercross.svg"></a>
+		
+		<div class="container">
+			<h2>Filter</h2>
+			<div class="cloud">
+				<?php
+
+				$taxonomy = 'category';
+				$tax_terms = get_terms($taxonomy);
+				?>
+				<?php
+				foreach ($tax_terms as $tax_term) {
+				echo '<a href="' . esc_attr(get_term_link($tax_term, $taxonomy)) . '" title="' . sprintf( __( "View all posts in %s" ), $tax_term->name ) . '" ' . '>' . $tax_term->name.'</a>';
+				}
+				?>
 			</div>
 		</div>
+	</div>
+	<div class="container">
+		<div class="filter">
+			<span class="toggle-search">
+				<i class="fa fa-search"></i>
+				<form method="get" id="searchform" action="<?php bloginfo('url'); ?>">
+					<input type="text" placeholder="Search Fooda Blog" value="" name="s" id="s" />
+					<input style="display: none;" name="submit" type="submit" />
+				</form>
+			</span>
+			<span class="toggle-filter">
+				<i class="fa fa-bars"></i>
+				<span>Filter</span>
+			</span>
+		</div>
+		<?php 
+			$the_query = new WP_Query( array( 'meta_key' => '_is_ns_featured_post', 'meta_value' => 'yes' ) ); ?>
+
+			<?php if ( $the_query->have_posts() ) : ?>
+			    <?php while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
+					<div class="featured">
+						<div class="img" style="background: url(<?php echo get_the_post_thumbnail_url(); ?>) no-repeat center; background-size: cover;"></div>
+						<div class="f-content">
+							<div class="cat">
+				    			<?php 
+					    				$categories = get_the_category(); 
+										$cat_name = $categories[0]->cat_name;
+										$cat_url = get_category_link($categories[0]->term_id);
+								?>
+				    			<a href="<?php echo $cat_url; ?>">
+				    				<?php
+										echo $cat_name;
+				    				?>
+				    			</a>
+							</div>
+							<h2 class="title"><?php echo the_title(); ?></h2>
+							<p><?php echo the_excerpt(); ?></p>
+							<div class="more"><a href="<?php echo the_permalink(); ?>">Read more</a></div>
+						</div>
+					</div>
+			    <?php endwhile; ?>
+			    <?php wp_reset_postdata(); wp_reset_query();?>
+			 
+			<?php else : ?>
+			    <p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
+			<?php endif; ?>
 <?php 
-$args = array(
-	'post_type' => 'post',
-	'posts_per_page' => 1
+
+global $paged;
+if ( get_query_var( 'paged' ) ) { 
+	$paged = get_query_var( 'paged' ); 
+} elseif ( get_query_var( 'page' ) ) { 
+	$paged = get_query_var( 'page' ); 
+} else { 
+	$paged = 1; 
+}
+
+
+if(!empty($_GET['s'])) {
+	$args = array(
+		'post_type' => 'post',
+		'posts_per_page' => 9,
+		'paged' => $paged,
+		's' => $_GET['s']
 	);
+}
+else {
+	$args = array(
+		'post_type' => 'post',
+		'posts_per_page' => 9,
+		'paged' => $paged
+	);
+}
+
 // the query
 $the_query = new WP_Query( $args ); ?>
  
@@ -28,8 +100,15 @@ $the_query = new WP_Query( $args ); ?>
  	<div class="row posts-grid">
     <!-- the loop -->
     <?php while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
-    	<div class="col-sm-4 article">
-    		<div class="thumb" style="background: url(<?php echo get_the_post_thumbnail_url(); ?>) no-repeat center; background-size: cover; ?>"></div>
+    	<?php 
+    		$flag = get_field('flag'); 
+    		$tile = get_field('tile');
+    	?>
+    	<?php if(get_field('type') != 'tile') : ?>
+    	<div class="col-sm-4 article <?php echo the_field('type'); ?>">
+    		<div class="thumb" style="background: url(<?php echo get_the_post_thumbnail_url(); ?>) no-repeat center; background-size: cover; ?>">
+    			<div class="flag-text" style="color: <?php echo $flag['text_color']; ?>;background: <?php echo $flag['background_color']; ?>"><?php echo $flag['text']; ?></div>
+    		</div>
     		<div class="cat">
     			<?php 
 	    				$categories = get_the_category(); 
@@ -46,9 +125,18 @@ $the_query = new WP_Query( $args ); ?>
     		<p><?php echo the_excerpt(); ?></p>
     		<div class="more"><a href="<?php echo the_permalink(); ?>">Read more</a></div>
     	</div>
-    	<div class="col-sm-4 article popular">
+    	<?php else : ?>
+		<div class="col-sm-4 article <?php echo the_field('type'); ?>">
+    		<div class="inner">
+    			<div class="graphics"><img src="<?php echo $tile['icon']; ?>"></div>
+	    		<h3><?php echo the_title(); ?></h3>
+	    		<div class="more"><a href="<?php echo $tile['link']; ?>">Read more</a></div>
+	    	</div>
+    	</div>
+    	<?php endif; ?>
+    	<!--<div class="col-sm-4 article flag">
     		<div class="thumb" style="background: url(<?php echo get_the_post_thumbnail_url(); ?>) no-repeat center; background-size: cover; ?>">
-    			<div class="popular-flag">POPULAR</div>
+    			<div class="flag-text">POPULAR</div>
     		</div>
     		<div class="cat">
     			<a href="#">
@@ -63,102 +151,24 @@ $the_query = new WP_Query( $args ); ?>
     		<p><?php echo the_excerpt(); ?></p>
     		<div class="more"><a href="<?php echo the_permalink(); ?>">Read more</a></div>
     	</div>
-    	<div class="col-sm-4 article type-blue">
+    	<div class="col-sm-4 article type-tile">
     		<div class="inner">
     			<div class="graphics"><i class="fa fa-book"></i></div>
 	    		<h3><?php echo the_title(); ?></h3>
 	    		<div class="more"><a href="<?php echo the_permalink(); ?>">Read more</a></div>
 	    	</div>
-    	</div>
-    	<div class="col-sm-4 article type-blue">
-    		<div class="inner">
-    			<div class="graphics"><i class="fa fa-book"></i></div>
-	    		<h3><?php echo the_title(); ?></h3>
-	    		<div class="more"><a href="<?php echo the_permalink(); ?>">Read more</a></div>
-	    	</div>
-    	</div>
-    	<div class="col-sm-4 article">
-    		<div class="thumb" style="background: url(<?php echo get_the_post_thumbnail_url(); ?>) no-repeat center; background-size: cover; ?>"></div>
-    		<div class="cat">
-    			<a href="#">
-    				<?php
-	    				$categories = get_the_category(); 
-						$cat_name = $categories[0]->cat_name;
-						echo $cat_name;
-    				?>
-    			</a>
-    		</div>
-    		<h3><?php echo the_title(); ?></h3>
-    		<p><?php echo the_excerpt(); ?></p>
-    		<div class="more"><a href="<?php echo the_permalink(); ?>">Read more</a></div>
-    	</div>
-    	<div class="col-sm-4 article popular">
-    		<div class="thumb" style="background: url(<?php echo get_the_post_thumbnail_url(); ?>) no-repeat center; background-size: cover; ?>">
-    			<div class="popular-flag">POPULAR</div>
-    		</div>
-    		<div class="cat">
-    			<a href="#">
-    				<?php
-	    				$categories = get_the_category(); 
-						$cat_name = $categories[0]->cat_name;
-						echo $cat_name;
-    				?>
-    			</a>
-    		</div>
-    		<h3><?php echo the_title(); ?></h3>
-    		<p><?php echo the_excerpt(); ?></p>
-    		<div class="more"><a href="<?php echo the_permalink(); ?>">Read more</a></div>
-    	</div>
-    	<div class="col-sm-4 article">
-    		<div class="thumb" style="background: url(<?php echo get_the_post_thumbnail_url(); ?>) no-repeat center; background-size: cover; ?>"></div>
-    		<div class="cat">
-    			<a href="#">
-    				<?php
-	    				$categories = get_the_category(); 
-						$cat_name = $categories[0]->cat_name;
-						echo $cat_name;
-    				?>
-    			</a>
-    		</div>
-    		<h3><?php echo the_title(); ?></h3>
-    		<p><?php echo the_excerpt(); ?></p>
-    		<div class="more"><a href="<?php echo the_permalink(); ?>">Read more</a></div>
-    	</div>
-    	<div class="col-sm-4 article type-blue">
-    		<div class="inner">
-    			<div class="graphics"><i class="fa fa-book"></i></div>
-	    		<h3><?php echo the_title(); ?></h3>
-	    		<div class="more"><a href="<?php echo the_permalink(); ?>">Read more</a></div>
-	    	</div>
-    	</div>
-    	<div class="col-sm-4 article popular">
-    		<div class="thumb" style="background: url(<?php echo get_the_post_thumbnail_url(); ?>) no-repeat center; background-size: cover; ?>">
-    			<div class="popular-flag">POPULAR</div>
-    		</div>
-    		<div class="cat">
-    			<a href="#">
-    				<?php
-	    				$categories = get_the_category(); 
-						$cat_name = $categories[0]->cat_name;
-						echo $cat_name;
-    				?>
-    			</a>
-    		</div>
-    		<h3><?php echo the_title(); ?></h3>
-    		<p><?php echo the_excerpt(); ?></p>
-    		<div class="more"><a href="<?php echo the_permalink(); ?>">Read more</a></div>
-    	</div>
+    	</div>-->
     <?php endwhile; ?>
     <!-- end of the loop -->
  	</div>
 
 	<?php 
-		if (function_exists("wp_numeric_posts_nav")) {
-			wp_numeric_posts_nav($the_query->max_num_pages);
+		if (function_exists("theme_pagination")) {
+			theme_pagination($the_query->max_num_pages);
 	    } 
     ?>
  
-    <?php wp_reset_postdata(); ?>
+    <?php wp_reset_postdata(); wp_reset_query();?>
  
 <?php else : ?>
     <p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>

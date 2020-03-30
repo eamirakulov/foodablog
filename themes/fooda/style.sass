@@ -4,12 +4,13 @@ $lightgrey2: #f5f5f6
 $lightgrey: #afb3ba
 $grey: #737a87
 $darkgrey: #374053
+$btn_hover: #5caafb
 
 $blue: #2086F0
 $orange: #f3634a
 
 #header
-	border-bottom: 1px solid $lightgrey2
+	border-bottom: 1px solid #D7D9DD
 
 body
 	font-family: proxima-nova
@@ -20,7 +21,43 @@ img
 	max-width: 100%
 
 main
-	margin-top: 86px
+	margin-top: 80px
+
+.filter-box
+	display: none
+	position: fixed
+	top: 80px
+	left: 0
+	width: 100%
+	height: 100%
+	background: #fff
+	z-index: 99
+	text-align: center
+	display: none
+
+	.close-filter
+		position: absolute
+		right: 22px
+		top: 45px
+
+		img
+			width: 35px
+			height: 35px
+
+	h2
+		font-size: 48px
+		line-height: 48px
+		font-weight: bold
+		margin: 67px 0 30px 0
+
+	.cloud
+		a
+			font-size: 22px
+			line-height: 42px
+			color: $darkgrey
+			text-decoration: none
+			display: inline-block
+			margin: 0 25px
 
 .filter
 	text-align: right
@@ -34,15 +71,47 @@ main
 		font-size: 22px
 		margin-left: 20px
 
+	.toggle-filter
+		cursor: pointer
+
+		@media (max-width: 767px)
+			.fa
+				display: none
+
+	.toggle-search
+		cursor: pointer
+		line-height: 40px
+
 	*
 		display: inline-block
 		vertical-align: middle
+
+	#searchform
+		vertical-align: middle
+		margin-left: 15px
+		display: none
+
+		&.vis
+			display: inline-block
+
+		input[type="text"]
+			height: 36px
+			width: 257px
+			padding: 12px
+			font-size: 18px
+			background: $lightgrey2
+			border: none
+			@media (max-width: 320px)
+				width: 150px
 
 .featured
 	position: relative
 	.img
 		width: 70%
 		height: 470px
+		@media (max-width: 767px)
+			width: 100%
+			height: 199px
 
 	.f-content
 		position: absolute
@@ -51,8 +120,12 @@ main
 		padding: 45px
 		right: 0
 		bottom: -45px
-		border-bottom: 1px solid $lightgrey
+		border-bottom: 1px solid #D7D9DD
 
+		@media (max-width: 767px)
+			position: initial
+			width: 100%
+			padding: 22px 0
 		.cat a
 			color: $blue
 			text-decoration: none
@@ -61,7 +134,11 @@ main
 
 		h2.title
 			font-size: 36px
+			font-weight: bold
 			line-height: 42px
+			@media (max-width: 767px)
+				font-size: 26px
+				line-height: 28px
 
 		p
 			font-size: 18px
@@ -80,7 +157,7 @@ main
 		margin-bottom: 80px
 		&:nth-child(3n+1)
 			clear: left
-		&.type-blue
+		&.tile
 			.inner
 				background: $blue
 				color: #fff
@@ -88,9 +165,8 @@ main
 
 			.graphics
 				margin-bottom: 30px
-				.fa
-					font-size: 60px
-					color: #fff
+				img
+					max-width: 70px
 
 			h3
 				font-size: 36px
@@ -106,17 +182,16 @@ main
 					line-height: 24px
 					color: #fff
 					text-decoration: none
-		&.popular
-			.popular-flag
-				background: $orange
-				color: #fff
-				text-transform: uppercase
-				font-size: 18px
-				font-weight: bold
-				position: absolute
-				right: -10px
-				top: 20px
-				padding: 5px 10px
+		
+		.flag-text
+			text-transform: uppercase
+			font-size: 18px
+			font-weight: bold
+			position: absolute
+			right: -10px
+			top: 20px
+			padding: 5px 10px
+
 		.thumb
 			width: 100%
 			height: 200px
@@ -155,11 +230,12 @@ main
 
 		li
 			display: inline-block
+			vertical-align: middle
 			margin: 0 20px
 			color: $lightgrey
 
 			a
-				font-size: 18px
+				font-size: 22px
 				color: $lightgrey
 
 			&.active
@@ -167,11 +243,29 @@ main
 					color: $grey
 					font-weight: bold
 
+			&.next,
+			&.previous
+				a
+					font-size: 0px
+					width: 25px
+					height: 18px
+					display: block
+					vertical-align: middle
+					background-size: 100%
+
+			&.next
+				a
+					background: url(img/arrow-right.svg) no-repeat center
+
+			&.previous
+				a
+					background: url(img/arrow-left.svg) no-repeat center
+
 .cat-page
 	.adv
 		margin-top: 80px
 	.cat-desc
-		border-bottom: 1px solid $lightgrey2
+		border-bottom: 1px solid #D7D9DD
 		padding-bottom: 40px
 		.inner
 			text-align: center
@@ -188,7 +282,31 @@ main
 			line-height: 28px
 			margin: 0 0 40px 0
 
+.individual
+	position: relative
+
+	.container
+		@media (max-width: 767px)
+			padding: 0
 .single
+	.container
+		position: relative
+	.share
+		position: absolute
+		left: 0
+		top: 590px
+
+		> div
+			margin-bottom: 10px
+			cursor: pointer
+
+	.share-mobile
+		margin: 30px 0
+
+		> div
+			display: inline-block
+			margin-right: 10px
+
 	.divider
 		height: 1px
 		width: 100%
@@ -196,6 +314,8 @@ main
 	.banner
 		height: 550px
 		width: 100%
+		@media (max-width: 767px)
+			height: 219px
 
 	.auth
 		display: flex
@@ -219,7 +339,9 @@ main
 		max-width: 830px
 		margin: -220px auto 0 auto
 		background: #fff
-
+		@media (max-width: 767px)
+			margin: 0 auto 0 auto
+			padding: 50px 25px
 		#breadcrumbs
 			margin-top: 0
 
@@ -230,6 +352,8 @@ main
 		max-width: 830px
 		margin: 0 auto
 		background: #fff
+		@media (max-width: 767px)
+			padding: 0 25px
 
 
 	.entry_title
@@ -237,12 +361,265 @@ main
 		font-weight: bold
 		line-height: 54px
 		margin: 25px 0
+		@media (max-width: 767px)
+			font-size: 36px
+			line-height: 42px
 
 #breadcrumbs
 	color: $darkgrey
 	margin-top: 72px
+
+	@media (max-width: 767px)
+		margin-top: 35px
 	> span > span a,
 	> span > span > span
 		color: $blue
 		font-weight: bold
 		font-size: 16px
+
+.slide-out-cta
+	display: none
+	background: #fff
+	max-width: 539px
+	position: fixed
+	left: 0
+	top: 20%
+	z-index: 99999
+	padding-bottom: 29px
+
+	.close-cta
+		position: absolute
+		top: 20px
+		right: 20px
+		z-index: 99999
+
+	.top
+		color: #fff
+		padding: 29px 36px
+		position: relative
+
+		h1
+			font-size: 100px
+			font-weight: bold
+			margin: 0
+			color: #fff !important
+
+		h2
+			font-size: 40px
+			font-weight: bold
+			margin: 0
+
+	.text
+		padding: 0px 36px
+		h3
+			font-size: 36px
+			font-weight: bold
+			margin: 30px 0 10px 0
+
+		p
+			font-size: 22px
+			margin: 0
+
+	.buttons
+		margin: 30px 0 0 0
+		padding: 0 36px
+
+		a
+			text-decoration: none
+			font-size: 18px
+			display: inline-block
+			vertical-align: middle
+
+		.button-main
+			color: #fff
+			background: $blue
+			height: 46px
+			padding: 14px 53px
+			font-weight: bold
+			&:hover
+				background-color: $btn_hover
+				color: #fff
+
+		.button-alt
+			color: $blue
+			margin-left: 32px
+
+			&:hover
+				color: $blue
+
+.lightbox-cta
+	display: none
+	width: 100%
+	height: 100%
+	position: fixed
+	top: 0
+	left: 0
+	background: rgba(55,64,83,0.75)
+	z-index: 9999999
+	align-items: center
+	justify-content: center
+	text-align: center
+
+	.close-cta
+		position: absolute
+		top: 20px
+		right: 20px
+		z-index: 99999
+
+	.inner
+		max-width: 469px
+		padding: 48px
+		background: #fff
+		position: relative
+		text-align: left
+
+	h2
+		font-size: 36px
+		font-weight: bold
+		margin: 0 0 10px 0
+
+	.text
+		font-size: 22px
+
+	form
+		margin-top: 30px
+
+		input[type="text"],
+		input[type="email"]
+			height: 46px
+			border: 1px solid #D7D9DD
+			padding: 12px
+			display: block
+			width: 100%
+			border-radius: 3px
+
+			&::-webkit-input-placeholder
+				color: #737A87
+				font-size: 18px
+			&:-ms-input-placeholder
+				color: #737A87
+				font-size: 18px
+			&::placeholder
+				color: #737A87
+				font-size: 18px
+
+		input[type="submit"]
+			font-size: 18px
+			font-weight: bold
+			background: $blue
+			border: none
+			border-radius: 3px
+			color: #fff
+			padding: 14px 24px
+			display: block
+			margin-top: 15px
+
+			&:hover
+				background: $btn_hover
+
+.side-cta
+	background: #fff
+	padding: 20px
+	max-width: 188px
+	position: absolute
+	right: 3%
+	-webkit-box-shadow: 0px 0px 10px 0px rgba(115,122,135,1)
+	-moz-box-shadow: 0px 0px 10px 0px rgba(115,122,135,1)
+	box-shadow: 0px 0px 10px 0px rgba(115,122,135,1)
+	z-index: 9999999
+	@media (max-width: 767px)
+		position: initial
+		width: 100%
+		margin-bottom: 40px
+		max-width: 100%
+
+		img
+			width: 100%
+
+	.thumb
+		margin-bottom: 25px
+
+	h3
+		font-size: 22px
+		font-weight: bold
+		line-height: 28px
+		margin: 0 0 25px 0
+
+	a
+		display: block
+		width: 100%
+		padding: 10px 20px
+		text-align: center
+		border: 2px solid $blue
+		border-radius: 3px
+		font-weight: bold
+		font-size: 16px
+
+		&:hover
+			text-decoration: none
+			color: $btn_hover
+
+blockquote
+	font-size: 36px
+	line-height: 42px
+	color: $lightgrey
+	border-left: 5px solid $orange
+	padding-left: 40px
+	margin: 60px 0
+	@media (max-width: 767px)
+		font-size: 28px
+		line-height: 34px
+
+.related-container
+	max-width: 1040px
+	margin: 0 auto
+	padding: 0 25px
+	padding-top: 150px
+	@media (max-width: 767px)
+		padding-top: 90px
+
+	.heading
+		margin: 0 0 23px 0
+		font-size: 22px
+		font-weight: bold
+
+@media (max-width: 767px)
+	.navbar-toggle .icon-bar
+		height: 4px
+		width: 32px
+		background: #374053
+
+	.navbar-default .navbar-toggle
+		border: none
+
+	.collapse.in
+		display: block !important
+
+	.navbar .navbar-nav
+		width: 100%
+		margin: 0
+
+	.navbar li.dropdown
+		background: #fff
+
+	.navbar-margin
+		margin-left: 0 !important
+
+	.navbar-collapse.collapse
+		top: 0
+
+	.navbar li.dropdown,
+	#header.us-19 .nav li.dropdown.open > a
+		background: #fff !important
+
+	.navbar.taller .navbar-nav > li > a
+		padding: 15px 0 5px 0 !important
+
+	.dropdown-menu
+		border: none !important
+		box-shadow: none !important
+
+	.navbar .navbar-header
+		padding-left: 20px
+
+
