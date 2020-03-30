@@ -375,6 +375,16 @@ main {
       .slide-out-cta .buttons .button-alt:hover {
         color: #2086F0; }
 
+.fade-area {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(55, 64, 83, 0.75);
+  z-index: 999999; }
+
 .lightbox-cta {
   display: none;
   width: 100%;

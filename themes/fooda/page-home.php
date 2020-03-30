@@ -3,27 +3,28 @@
 <main>
 	<?php if(get_field('cta_type') == 'Slide Out CTA') : ?>
 		<?php $slideOutCta = get_field('slide_out_cta'); ?>
-		<div class="slide-out-cta" data-delay="<?php echo $slideOutCta['delay_time']; ?>">
-			<a href="#" class="close-cta"><img src="<?php bloginfo('template_url'); ?>/img/closew.svg"></a>
-			<div class="top" style="background: <?php echo $slideOutCta['header_color']; ?>">
-				<?php
-					echo $slideOutCta['title'];
-				?>
- 			</div>
-			<div class="text">
-				<h3><?php echo $slideOutCta['subtitle']; ?></h3>
-				<p><?php echo $slideOutCta['text']; ?></p>
+		<div class="fade-area">
+			<div class="slide-out-cta" data-delay="<?php echo $slideOutCta['delay_time']; ?>">
+				<a href="#" class="close-cta"><img src="<?php bloginfo('template_url'); ?>/img/closew.svg"></a>
+				<div class="top" style="background: <?php echo $slideOutCta['header_color']; ?>">
+					<?php
+						echo $slideOutCta['title'];
+					?>
+	 			</div>
+				<div class="text">
+					<h3><?php echo $slideOutCta['subtitle']; ?></h3>
+					<p><?php echo $slideOutCta['text']; ?></p>
+				</div>
+				
+				<div class="buttons">
+					<?php if(isset($slideOutCta['accept_btn'])) : ?>
+						<a class="button-main" href="<?php echo $slideOutCta['link']; ?>"><?php echo $slideOutCta['accept_btn']; ?></a>
+					<?php endif; ?>
+					<?php if(isset($slideOutCta['additional_button_text'])) : ?>
+						<a href="#" class="button-alt"><?php echo $slideOutCta['additional_button_text']; ?></a>
+					<?php endif; ?>
+				</div>
 			</div>
-			
-			<div class="buttons">
-				<?php if(isset($slideOutCta['accept_btn'])) : ?>
-					<a class="button-main" href="<?php echo $slideOutCta['link']; ?>"><?php echo $slideOutCta['accept_btn']; ?></a>
-				<?php endif; ?>
-				<?php if(isset($slideOutCta['additional_button_text'])) : ?>
-					<a href="#" class="button-alt"><?php echo $slideOutCta['additional_button_text']; ?></a>
-				<?php endif; ?>
-			</div>
-			
 		</div>
 	<?php endif; ?>
 	<?php if(get_field('cta_type') == 'Lightbox CTA') : ?>
@@ -189,30 +190,6 @@ $the_query = new WP_Query( $args ); ?>
     		<div class="more"><a href="<?php echo the_permalink(); ?>">Read more</a></div>
     	</div>
     	<?php endif; ?>
-    	<!--<div class="col-sm-4 article flag">
-    		<div class="thumb" style="background: url(<?php echo get_the_post_thumbnail_url(); ?>) no-repeat center; background-size: cover; ?>">
-    			<div class="flag-text">POPULAR</div>
-    		</div>
-    		<div class="cat">
-    			<a href="#">
-    				<?php
-	    				$categories = get_the_category(); 
-						$cat_name = $categories[0]->cat_name;
-						echo $cat_name;
-    				?>
-    			</a>
-    		</div>
-    		<h3><?php echo the_title(); ?></h3>
-    		<p><?php echo the_excerpt(); ?></p>
-    		<div class="more"><a href="<?php echo the_permalink(); ?>">Read more</a></div>
-    	</div>
-    	<div class="col-sm-4 article type-tile">
-    		<div class="inner">
-    			<div class="graphics"><i class="fa fa-book"></i></div>
-	    		<h3><?php echo the_title(); ?></h3>
-	    		<div class="more"><a href="<?php echo the_permalink(); ?>">Read more</a></div>
-	    	</div>
-    	</div>-->
     <?php endwhile; ?>
     <!-- end of the loop -->
  	</div>

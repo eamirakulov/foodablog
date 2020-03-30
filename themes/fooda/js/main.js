@@ -40,12 +40,14 @@ $(function() {
 	var ctaDelay = $('.slide-out-cta').data('delay') * 1000;
 	if (getCookie('slide-out-cta') == null) {
 		setCookie('slide-out-cta');
+		$('.fade-area').hide().delay(ctaDelay).fadeIn();
 		$('.slide-out-cta').delay(ctaDelay).toggle( "slide" );
 	}
 
 	$('.close-cta, .button-alt').click(function(e) {
 		e.preventDefault();
 		$('.slide-out-cta').toggle( "slide" );
+		$('.fade-area').hide().delay(ctaDelay).fadeOut();
 	});
 
 	// lightbox CTA
