@@ -138,7 +138,7 @@
 	}
 
 	function remove_breadcrumb_title( $link_output) {
-		if(strpos( $link_output, 'breadcrumb_last' ) !== false ) {
+		if(strpos( $link_output, 'breadcrumb_last' ) !== false && !is_category() ) {
 			$link_output = '';
 		}
 	   	return $link_output;

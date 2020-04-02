@@ -4,25 +4,26 @@
 
         <?php $id = get_the_id();
         $terms = get_the_terms($id, 'cta_tax');
-        foreach($terms as $term) : ?>
-            <?php $sideCta = get_field('cta_item', $term); ?>
-            <?php
-                if( have_rows('cta_item', $term) ):
-                    while ( have_rows('cta_item', $term) ) : the_row(); ?>
-                        <div class="side-cta hidden-xs" style="top: <?php echo the_sub_field('position', $term); ?>%;">
-                            <?php if(get_sub_field('header_image', $term)) : ?>
-                                <div class="thumb"><img src="<?php echo the_sub_field('header_image', $term); ?>"></div>
-                            <?php endif; ?>
-                            <h3><?php echo the_sub_field('text', $term); ?></h3>
-                            <div><a href="<?php echo the_sub_field('button_link', $term); ?>"><?php echo the_sub_field('button', $term); ?></a></div>
-                        </div>
-                    <?php endwhile;
-                else :
-                    // no rows found
-                endif;
+        if(!empty($terms)) :
+            foreach($terms as $term) : ?>
+                <?php $sideCta = get_field('cta_item', $term); ?>
+                <?php
+                    if( have_rows('cta_item', $term) ):
+                        while ( have_rows('cta_item', $term) ) : the_row(); ?>
+                            <div class="side-cta hidden-xs" style="top: <?php echo the_sub_field('position', $term); ?>%;">
+                                <?php if(get_sub_field('header_image', $term)) : ?>
+                                    <div class="thumb"><img src="<?php echo the_sub_field('header_image', $term); ?>"></div>
+                                <?php endif; ?>
+                                <h3><?php echo the_sub_field('text', $term); ?></h3>
+                                <div><a href="<?php echo the_sub_field('button_link', $term); ?>"><?php echo the_sub_field('button', $term); ?></a></div>
+                            </div>
+                        <?php endwhile;
+                    else :
+                        // no rows found
+                    endif;
 
-                ?>
-        <?php endforeach; ?>
+                    ?>
+            <?php endforeach; endif;?>
       	<?php if(have_posts()): the_post(); ?>
             <div class="container">
                 <div class="share hidden-xs">
