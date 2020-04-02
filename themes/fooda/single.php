@@ -1,51 +1,28 @@
 <?php get_header(); ?>
     <script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5e823be4f8001300197231cd&product=inline-share-buttons" async="async"></script>
-
 	<main class="individual">
-            
-        <?php if(get_field('cta_type') == 'Slide Out CTA') : ?>
-            <?php $slideOutCta = get_field('slide_out_cta'); ?>
-            <div class="fade-area">
-                <div class="slide-out-cta" data-delay="<?php echo $slideOutCta['delay_time']; ?>">
-                    <a href="#" class="close-cta"><img src="<?php bloginfo('template_url'); ?>/img/closew.svg"></a>
-                    <div class="top" style="background: <?php echo $slideOutCta['header_color']; ?>">
-                        <?php
-                            echo $slideOutCta['title'];
-                        ?>
-                    </div>
-                    <div class="text">
-                        <h3><?php echo $slideOutCta['subtitle']; ?></h3>
-                        <p><?php echo $slideOutCta['text']; ?></p>
-                    </div>
-                    
-                    <div class="buttons">
-                        <?php if(isset($slideOutCta['accept_btn'])) : ?>
-                            <a class="button-main" href="<?php echo $slideOutCta['link']; ?>"><?php echo $slideOutCta['accept_btn']; ?></a>
-                        <?php endif; ?>
-                        <?php if(isset($slideOutCta['additional_button_text'])) : ?>
-                            <a href="#" class="button-alt"><?php echo $slideOutCta['additional_button_text']; ?></a>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            </div>
-        <?php endif; ?>
-        <?php $sideCta = get_field('cta_item'); ?>
-        <?php
-            if( have_rows('cta_item') ):
-                while ( have_rows('cta_item') ) : the_row(); ?>
-                    <div class="side-cta hidden-xs" style="top: <?php echo the_sub_field('position'); ?>%;">
-                        <?php if(get_sub_field('header_image')) : ?>
-                            <div class="thumb"><img src="<?php echo the_sub_field('header_image'); ?>"></div>
-                        <?php endif; ?>
-                        <h3><?php echo the_sub_field('text'); ?></h3>
-                        <div><a href="<?php echo the_sub_field('button_link'); ?>"><?php echo the_sub_field('button'); ?></a></div>
-                    </div>
-                <?php endwhile;
-            else :
-                // no rows found
-            endif;
 
-            ?>
+        <?php $id = get_the_id();
+        $terms = get_the_terms($id, 'cta_tax');
+        foreach($terms as $term) : ?>
+            <?php $sideCta = get_field('cta_item', $term); ?>
+            <?php
+                if( have_rows('cta_item', $term) ):
+                    while ( have_rows('cta_item', $term) ) : the_row(); ?>
+                        <div class="side-cta hidden-xs" style="top: <?php echo the_sub_field('position', $term); ?>%;">
+                            <?php if(get_sub_field('header_image', $term)) : ?>
+                                <div class="thumb"><img src="<?php echo the_sub_field('header_image', $term); ?>"></div>
+                            <?php endif; ?>
+                            <h3><?php echo the_sub_field('text', $term); ?></h3>
+                            <div><a href="<?php echo the_sub_field('button_link', $term); ?>"><?php echo the_sub_field('button', $term); ?></a></div>
+                        </div>
+                    <?php endwhile;
+                else :
+                    // no rows found
+                endif;
+
+                ?>
+        <?php endforeach; ?>
       	<?php if(have_posts()): the_post(); ?>
             <div class="container">
                 <div class="share hidden-xs">
@@ -69,16 +46,30 @@
                         <h2 class="entry_title">
                             <?php the_title(); ?>
                         </h2>
+                        <?php if(get_field('hide_author_name')[0] !== 'yes') : ?>
+                            <div class="auth">
+                                <img src="<?php bloginfo('template_url'); ?>/img/person.jpg">
 
-                        <div class="auth">
-                            <img src="<?php bloginfo('template_url'); ?>/img/person.jpg">
-
-                            <div>
-                                This post was written by:
-                                <div class="name"><?php echo get_the_author_meta('display_name'); ?>, <br><?php echo the_author_meta('description'); ?></div>
-
+                                <div>
+                                    This post was written by:
+                                    <div class="name">
+                                        <?php 
+                                            if(!empty(get_field('custom_author'))) :
+                                                echo get_field('custom_author');
+                                            else : 
+                                                echo get_the_author_meta('display_name');
+                                            endif; ?>
+                                            <br>
+                                            <?php if(!empty(get_field('custom_author_description'))) :
+                                                echo get_field('custom_author_description');
+                                            else :
+                                                echo the_author_meta('description');
+                                            endif;
+                                        ?>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        <?php endif; ?>
     				</div>
     			</article>
     		</div>

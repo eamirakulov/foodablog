@@ -1,5 +1,14 @@
 <?php get_header(); ?>
-
+<?php 
+	global $paged;
+	if ( get_query_var( 'paged' ) ) { 
+		$paged = get_query_var( 'paged' ); 
+	} elseif ( get_query_var( 'page' ) ) { 
+		$paged = get_query_var( 'page' ); 
+	} else { 
+		$paged = 1; 
+	}
+?>
 <main>
 	<div class="filter-box">
 		<a href="#" class="close-filter"><img src="<?php bloginfo('template_url'); ?>/img/filtercross.svg"></a>
@@ -37,6 +46,7 @@
 	</div>
 	<div class="container">
 		<?php 
+		if($paged == 1) :
 			$the_query = new WP_Query( array( 'meta_key' => '_is_ns_featured_post', 'meta_value' => 'yes' ) ); ?>
 
 			<?php if ( $the_query->have_posts() ) : ?>
@@ -56,7 +66,7 @@
 				    				?>
 				    			</a>
 							</div>
-							<h2 class="title"><?php echo the_title(); ?></h2>
+							<h2 class="title"><a href="<?php echo the_permalink(); ?>"><?php echo the_title(); ?></a></h2>
 							<p><?php echo the_excerpt(); ?></p>
 							<div class="more"><a href="<?php echo the_permalink(); ?>">Read more</a></div>
 						</div>
@@ -67,32 +77,59 @@
 			<?php else : ?>
 			    <p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
 			<?php endif; ?>
+		<?php endif; ?>
 <?php 
 
-global $paged;
-if ( get_query_var( 'paged' ) ) { 
-	$paged = get_query_var( 'paged' ); 
-} elseif ( get_query_var( 'page' ) ) { 
-	$paged = get_query_var( 'page' ); 
-} else { 
-	$paged = 1; 
-}
 
-
-if(!empty($_GET['s'])) {
-	$args = array(
-		'post_type' => 'post',
-		'posts_per_page' => 9,
-		'paged' => $paged,
-		's' => $_GET['s']
-	);
+if(1 == $paged) {
+	if(!empty($_GET['s'])) {
+		$args = array(
+			'post_type' => 'post',
+			'posts_per_page' => 15,
+			'paged' => $paged,
+			'meta_query' => array(
+		        'relation' => 'AND',
+		        array(
+		            'key' => '_is_ns_featured_post',
+		            'value'   => 'yes',
+		            'compare' => 'NOT EXISTS',
+		        ),
+		    ),
+			's' => $_GET['s']
+		);
+	}
+	else {
+		$args = array(
+			'post_type' => 'post',
+			'posts_per_page' => 15,
+			'meta_query' => array(
+		        'relation' => 'AND',
+		        array(
+		            'key' => '_is_ns_featured_post',
+		            'value'   => 'yes',
+		            'compare' => 'NOT EXISTS',
+		        ),
+		    ),
+			'paged' => $paged
+		);
+	}
 }
 else {
-	$args = array(
-		'post_type' => 'post',
-		'posts_per_page' => 9,
-		'paged' => $paged
-	);
+	if(!empty($_GET['s'])) {
+		$args = array(
+			'post_type' => 'post',
+			'posts_per_page' => 15,
+			'paged' => $paged,
+			's' => $_GET['s']
+		);
+	}
+	else {
+		$args = array(
+			'post_type' => 'post',
+			'posts_per_page' => 15,
+			'paged' => $paged
+		);
+	}
 }
 
 // the query
@@ -106,11 +143,13 @@ $the_query = new WP_Query( $args ); ?>
     		$flag = get_field('flag'); 
     		$tile = get_field('tile');
     	?>
-    	<?php if(get_field('type') != 'tile') : ?>
+ <?php if(get_field('type') == 'default') : ?>
     	<div class="col-sm-4 article <?php echo the_field('type'); ?>">
-    		<div class="thumb" style="background: url(<?php echo get_the_post_thumbnail_url(); ?>) no-repeat center; background-size: cover; ?>">
+    		 <a href="<?php the_permalink(); ?>"><div class="thumb" style="background: url(<?php echo get_the_post_thumbnail_url(); ?>) no-repeat center; background-size: cover; ?>">
+    			<?php if(!empty($flag['text'])) : ?>
     			<div class="flag-text" style="color: <?php echo $flag['text_color']; ?>;background: <?php echo $flag['background_color']; ?>"><?php echo $flag['text']; ?></div>
-    		</div>
+    			<?php endif; ?>
+    		</div></a>
     		<div class="cat">
     			<?php 
 	    				$categories = get_the_category(); 
@@ -123,43 +162,39 @@ $the_query = new WP_Query( $args ); ?>
     				?>
     			</a>
     		</div>
-    		<h3><?php echo the_title(); ?></h3>
+    		<h3><a href="<?php echo the_permalink(); ?>"><?php echo the_title(); ?></a></h3>
     		<p><?php echo the_excerpt(); ?></p>
     		<div class="more"><a href="<?php echo the_permalink(); ?>">Read more</a></div>
     	</div>
-    	<?php else : ?>
+    	<?php elseif(get_field('type') == 'tile') : ?>
 		<div class="col-sm-4 article <?php echo the_field('type'); ?>">
     		<div class="inner">
     			<div class="graphics"><img src="<?php echo $tile['icon']; ?>"></div>
-	    		<h3><?php echo the_title(); ?></h3>
-	    		<div class="more"><a href="<?php echo $tile['link']; ?>">Read more</a></div>
+	    		<h3><a href="<?php echo the_permalink(); ?>"><?php echo the_title(); ?></a></h3>
+	    		<div class="more"><a href="<?php echo $tile['link']; ?>"><?php echo $tile['link_text']; ?></a></div>
 	    	</div>
     	</div>
-    	<?php endif; ?>
-    	<!--<div class="col-sm-4 article flag">
-    		<div class="thumb" style="background: url(<?php echo get_the_post_thumbnail_url(); ?>) no-repeat center; background-size: cover; ?>">
-    			<div class="flag-text">POPULAR</div>
-    		</div>
+    	<?php else : ?>
+    	<div class="col-sm-4 article <?php echo the_field('type'); ?>">
+    		 <a href="<?php the_permalink(); ?>"><div class="thumb" style="background: url(<?php echo get_the_post_thumbnail_url(); ?>) no-repeat center; background-size: cover; ?>">
+    		</div></a>
     		<div class="cat">
-    			<a href="#">
-    				<?php
+    			<?php 
 	    				$categories = get_the_category(); 
 						$cat_name = $categories[0]->cat_name;
+						$cat_url = get_category_link($categories[0]->term_id);
+				?>
+    			<a href="<?php echo $cat_url; ?>">
+    				<?php
 						echo $cat_name;
     				?>
     			</a>
     		</div>
-    		<h3><?php echo the_title(); ?></h3>
+    		<h3><a href="<?php echo the_permalink(); ?>"><?php echo the_title(); ?></a></h3>
     		<p><?php echo the_excerpt(); ?></p>
     		<div class="more"><a href="<?php echo the_permalink(); ?>">Read more</a></div>
     	</div>
-    	<div class="col-sm-4 article type-tile">
-    		<div class="inner">
-    			<div class="graphics"><i class="fa fa-book"></i></div>
-	    		<h3><?php echo the_title(); ?></h3>
-	    		<div class="more"><a href="<?php echo the_permalink(); ?>">Read more</a></div>
-	    	</div>
-    	</div>-->
+    	<?php endif; ?>
     <?php endwhile; ?>
     <!-- end of the loop -->
  	</div>

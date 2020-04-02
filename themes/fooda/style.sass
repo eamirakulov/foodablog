@@ -60,11 +60,13 @@ main
 			display: inline-block
 			margin: 0 25px
 
+			&:hover
+				color: $blue
+
 .filter
 	text-align: right
 	font-size: 16px
 	padding: 20px 0
-	border-bottom: 1px solid #808080
 
 	span
 		margin-left: 7px
@@ -129,6 +131,7 @@ main
 			position: initial
 			width: 100%
 			padding: 22px 0
+
 		.cat a
 			color: $blue
 			text-decoration: none
@@ -136,9 +139,13 @@ main
 			font-weight: bold
 
 		h2.title
-			font-size: 36px
-			font-weight: bold
-			line-height: 42px
+			a
+				font-size: 36px
+				font-weight: bold
+				line-height: 42px
+				color: $darkgrey
+				text-decoration: none
+
 			@media (max-width: 767px)
 				font-size: 26px
 				line-height: 28px
@@ -165,6 +172,11 @@ main
 				background: $blue
 				color: #fff
 				padding: 30px
+				min-height: 500px
+				position: relative
+
+				@media (max-width: 767px)
+					min-height: auto
 
 			.graphics
 				margin-bottom: 30px
@@ -172,12 +184,20 @@ main
 					max-width: 70px
 
 			h3
-				font-size: 36px
-				font-weight: bold
-				line-height: 42px
+				margin-bottom: 40px
+
+				a
+					font-size: 36px
+					font-weight: bold
+					line-height: 42px
+					color: #fff
+					text-decoration: none
 
 			.more
 				text-align: right
+				position: absolute
+				bottom: 40px
+				right: 40px
 
 				a
 					font-size: 18px
@@ -208,10 +228,14 @@ main
 				font-weight: bold
 
 		h3	
-			font-size: 26px
-			font-weight: bold
-			line-height: 30px
 			margin: 15px 0
+
+			a
+				font-size: 26px
+				font-weight: bold
+				line-height: 30px
+				color: $darkgrey
+				text-decoration: none
 
 		p
 			font-size: 18px
@@ -314,6 +338,7 @@ main
 		height: 1px
 		width: 100%
 		border-bottom: 1px solid #D7D9DD
+
 	.banner
 		height: 550px
 		width: 100%
@@ -357,11 +382,16 @@ main
 		background: #fff
 		font-size: 22px
 		line-height: 30px
+		color: $darkgrey
+
+		b
+			color: $darkgrey
 
 		p
 			font-size: 22px
 			line-height: 30px
 			margin: 0 0 30px 0
+			color: $darkgrey
 
 		@media (max-width: 767px)
 			padding: 0 25px
@@ -581,15 +611,20 @@ main
 			color: $btn_hover
 
 blockquote
-	font-size: 36px
-	line-height: 42px
-	color: $lightgrey
+	color: $lightgrey !important
 	border-left: 5px solid $orange
 	padding-left: 40px
 	margin: 60px 0
+	p
+		margin-bottom: 0 !important
+	*
+		font-size: 36px !important
+		line-height: 42px !important
+		font-weight: bold
 	@media (max-width: 767px)
-		font-size: 28px
-		line-height: 34px
+		*
+			font-size: 28px !important
+			line-height: 34px !important
 
 .related-container
 	max-width: 1040px

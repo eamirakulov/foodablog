@@ -39,7 +39,8 @@ $(function() {
 	if($(window).width() > 767) {
 		// slideOut CTA
 		var ctaDelay = $('.slide-out-cta').data('delay') * 1000;
-		if (getCookie('slide-out-cta') == null) {
+
+		if (getCookie('slide-out-cta') == null && $('.slide-out-cta').length) {
 			setCookie('slide-out-cta');
 			$('.fade-area').hide().delay(ctaDelay).fadeIn();
 			$('.slide-out-cta').delay(ctaDelay).toggle( "slide" );
@@ -54,7 +55,7 @@ $(function() {
 		// lightbox CTA
 		var ctaDelay = $('.lightbox-cta').data('delay') * 1000;
 		
-		if (getCookie('lightbox-cta') == null) {
+		if (getCookie('lightbox-cta') == null && $('.lightbox-cta').length) {
 			setCookie('lightbox-cta');
 			$('.lightbox-cta').hide().delay(ctaDelay).css("display", "flex")
 		    .hide()
