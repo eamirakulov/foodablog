@@ -190,3 +190,12 @@
 		}
 		return $found_posts;
 	}
+
+	if ( function_exists('register_sidebar') )
+	  register_sidebar(array(
+	    'name' => 'Category Bottom Area',
+	    'before_widget' => '<div class="widgetizedArea">',
+	    'after_widget' => '</div>'
+	  )
+	);
+

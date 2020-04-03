@@ -142,10 +142,10 @@ $the_query = new WP_Query( $args ); ?>
     <p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
 <?php endif; ?>
 
-	<div class="adv">
-		<a href="#"><img src="<?php bloginfo('template_url'); ?>/img/catad.png" style="width: 100%; height: 100%;"></a>
-	</div>
-	</div>
+<div class="adv">
+<?php if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar("Category Bottom Area") ) : ?>
+<?php endif;?>
+</div>
 </main>
 
 <?php get_footer(); ?>
