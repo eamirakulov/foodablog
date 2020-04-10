@@ -149,7 +149,7 @@
 	function sk_query_offset( &$query ) {
 
 		// Before anything else, make sure this is the right query...
-		if ( ! ( $query->is_home() || is_main_query() ) ) {
+		if ( ! ( $query->is_home() || $query->is_main_query() ) ) {
 			return;
 		}
 

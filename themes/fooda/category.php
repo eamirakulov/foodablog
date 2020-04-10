@@ -5,7 +5,7 @@ $term = get_queried_object();
 <?php if(get_field('cta_type', $term) == 'Slide Out CTA') : ?>
     <?php $slideOutCta = get_field('slide_out_cta', $term); ?>
     <div class="fade-area">
-        <div class="slide-out-cta" data-delay="<?php echo $slideOutCta['delay_time']; ?>">
+        <div class="slide-out-cta" data-category="<?php echo $term->slug; ?>" data-delay="<?php echo $slideOutCta['delay_time']; ?>">
             <a href="#" class="close-cta"><img src="<?php bloginfo('template_url'); ?>/img/closew.svg"></a>
             <div class="top" style="background: <?php echo $slideOutCta['header_color']; ?>">
                 <?php

@@ -1,8 +1,51 @@
 <?php get_header(); ?>
     <script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5e823be4f8001300197231cd&product=inline-share-buttons" async="async"></script>
-	<main class="individual">
+    <?php 
+    $id = get_the_id();
+    $termsSlideOUt = get_the_terms($id, 'category');
+    if(!empty($termsSlideOUt)) :
+        foreach($termsSlideOUt as $term) : ?>
+            <?php if(get_field('cta_type', $term) == 'Slide Out CTA') : ?>
+                <?php $slideOutCta = get_field('slide_out_cta', $term); ?>
+                <div class="fade-area">
+                    <div class="slide-out-cta" data-category="<?php echo $term->slug; ?>" data-delay="<?php echo $slideOutCta['delay_time']; ?>">
+                        <a href="#" class="close-cta"><img src="<?php bloginfo('template_url'); ?>/img/closew.svg"></a>
+                        <div class="top" style="background: <?php echo $slideOutCta['header_color']; ?>">
+                            <?php
+                                echo $slideOutCta['title'];
+                            ?>
+                        </div>
+                        <div class="text">
+                            <h3><?php echo $slideOutCta['subtitle']; ?></h3>
+                            <p><?php echo $slideOutCta['text']; ?></p>
+                        </div>
+                        
+                        <div class="buttons">
+                            <?php if(isset($slideOutCta['accept_btn'])) : ?>
+                                <a class="button-main" href="<?php echo $slideOutCta['link']; ?>"><?php echo $slideOutCta['accept_btn']; ?></a>
+                            <?php endif; ?>
+                            <?php if(isset($slideOutCta['additional_button_text'])) : ?>
+                                <a href="#" class="button-alt"><?php echo $slideOutCta['additional_button_text']; ?></a>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+            <?php if(get_field('cta_type', $term) == 'Lightbox CTA') : ?>
+                <?php $lightboxCta = get_field('lightbox_cta', $term); ?>
+                <div class="lightbox-cta" data-delay="<?php echo $lightboxCta['delay_time']; ?>">
+                    <div class="inner">
+                        <a href="#" class="close-cta"><img src="<?php bloginfo('template_url'); ?>/img/closed.svg"></a>
+                        <h2><?php echo $lightboxCta['title']; ?></h2>
+                        <div class="text"><?php echo $lightboxCta['text']; ?></div>
+                    </div>
+                </div>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
 
-        <?php $id = get_the_id();
+	<main class="individual">
+        <?php 
         $terms = get_the_terms($id, 'cta_tax');
         if(!empty($terms)) :
             foreach($terms as $term) : ?>
