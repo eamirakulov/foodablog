@@ -2,7 +2,7 @@
     <script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5e823be4f8001300197231cd&product=inline-share-buttons" async="async"></script>
     <?php 
     $id = get_the_id();
-    $termsSlideOUt = get_the_terms($id, 'category');
+    $termsSlideOUt = get_the_terms($id, 'cta_tax');
     if(!empty($termsSlideOUt)) :
         foreach($termsSlideOUt as $term) : ?>
             <?php if(get_field('cta_type', $term) == 'Slide Out CTA') : ?>
