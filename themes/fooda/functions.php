@@ -145,7 +145,10 @@
 	}
 	add_filter('wpseo_breadcrumb_single_link', 'remove_breadcrumb_title' );
 
-	add_action( 'pre_get_posts', 'sk_query_offset', 1 );
+	function run_query_change() {
+		add_action( 'pre_get_posts', 'sk_query_offset', 1 ); // this fucking junk
+	}
+	
 	function sk_query_offset( &$query ) {
 
 		// Before anything else, make sure this is the right query...
@@ -154,7 +157,7 @@
 		}
 
 		// First, define your desired offset...
-		$offset = -6;
+		$offset = -7;
 
 		// Next, determine how many posts per page you want (we'll use WordPress's settings)
 		$ppp = get_option( 'posts_per_page' );
@@ -181,7 +184,7 @@
 	function sk_adjust_offset_pagination( $found_posts, $query ) {
 
 		// Define our offset again...
-		$offset = -6;
+		$offset = -7;
 
 		// Ensure we're modifying the right query object...
 		if ( $query->is_home() && is_main_query() ) {
@@ -191,11 +194,4 @@
 		return $found_posts;
 	}
 
-	if ( function_exists('register_sidebar') )
-	  register_sidebar(array(
-	    'name' => 'Category Bottom Area',
-	    'before_widget' => '<div class="widgetizedArea">',
-	    'after_widget' => '</div>'
-	  )
-	);
 

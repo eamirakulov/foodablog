@@ -47,7 +47,7 @@
 	<div class="container">
 		<?php 
 		if($paged == 1) :
-			$the_query = new WP_Query( array( 'meta_key' => '_is_ns_featured_post', 'meta_value' => 'yes' ) ); ?>
+			$the_query = new WP_Query( array( 'posts_per_page' => 1, 'meta_key' => '_is_ns_featured_post', 'meta_value' => 'yes' ) ); ?>
 
 			<?php if ( $the_query->have_posts() ) : ?>
 			    <?php while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
