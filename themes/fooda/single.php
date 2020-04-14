@@ -10,11 +10,16 @@
                 <div class="fade-area">
                     <div class="slide-out-cta" data-category="<?php echo $term->slug; ?>" data-delay="<?php echo $slideOutCta['delay_time']; ?>">
                         <a href="#" class="close-cta"><img src="<?php bloginfo('template_url'); ?>/img/closew.svg"></a>
+                        <?php if($slideOutCta['header_type'] == 'Text') : ?>
                         <div class="top" style="background: <?php echo $slideOutCta['header_color']; ?>">
                             <?php
                                 echo $slideOutCta['title'];
                             ?>
                         </div>
+                        <?php else : ?>
+                        <div class="top" style="height: 300px;background: url(<?php echo $slideOutCta['header_image']; ?>) no-repeat center;background-size: cover;">
+                        </div>
+                        <?php endif; ?>
                         <div class="text">
                             <h3><?php echo $slideOutCta['subtitle']; ?></h3>
                             <p><?php echo $slideOutCta['text']; ?></p>
@@ -92,8 +97,11 @@
                         </h2>
                         <?php if(get_field('hide_author_name')[0] !== 'yes') : ?>
                             <div class="auth">
-                                <img src="<?php bloginfo('template_url'); ?>/img/person.jpg">
-
+                                <?php if(get_avatar(get_the_author_meta('ID'))) : ?>
+                                    <?php echo get_avatar(get_the_author_meta('ID')); ?>
+                                <?php else: ?>
+                                    <img src="http://www.gravatar.com/avatar/3b3be63a4c2a439b013787725dfce802?d=identicon">
+                                <?php endif; ?>
                                 <div>
                                     This post was written by:
                                     <div class="name">
